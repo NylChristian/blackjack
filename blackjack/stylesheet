@@ -1,0 +1,119 @@
+        #banner{
+            display: flex;
+            background-color: black;        
+            height: 140px;
+            width: auto;
+            flex: 1;
+            padding: 10px;
+        }
+        .logo {
+            
+            float: left;
+            width: 88px;
+            height: 100px;
+            margin: 8px;  
+            
+        }
+        .logo > .front{
+            position: absolute;
+            -webkit-transform: perspective(600px) rotateY(0deg);
+            transform: perspective(600px) rotateY(0deg);
+            background: black; width: 88px; height: 100px; border-radius: 7px;
+           -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transition:-webkit-transform .8s linear 0s;
+            transition: transform .8s linear 0s;
+            font-size: 30px;
+            color: azure;
+            text-align: center;
+            padding-top: 10px;
+            
+            
+        }
+        .logo > .back{
+            position: absolute;
+            transform: perspective(600px) rotateY(180deg);
+            -webkit-transform: perspective(600px) rotateY(180deg);
+            background-image: url(back_card.png);
+            width: 88px; height: 120px; border-radius: 7px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition:-webkit-transform .8s linear 0s;
+            transition:transform .8s linear 0s;
+        }
+        .logo:hover > .front{
+            transform: perspective(600px) rotateY(-180deg);
+             -webkit-transform: perspective(600px) rotateY(-180deg);
+        }
+        
+        .logo:hover > .back{
+            transform: perspective(600px) rotateY(0deg);
+            -webkit-transform: perspective(600px) rotateY(0deg);
+        }
+        #container{
+            display: flex;
+            border: solid 5px white;
+            background-color: black;
+        }
+        #container > div {
+            flex: 1;
+        }
+        #centre{
+            border: solid 3px limegreen;
+            background-color: darkgreen;
+            float: left;
+            width: 20%;
+            height: auto;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        #left{
+            border: dashed 2px red;
+            background-color: transparent;
+            float: left;
+            width: 40px;
+            height: auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        #right{
+            border: dashed 2px red;
+            background-color: transparent;
+            float: left;
+            width: 40%;
+            height: auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        body{
+            background-color: forestgreen;
+        }
+        img{
+            padding: 10px;
+            
+        }
+.bttn {
+    background-color: darkred;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+        .bttn2{
+            background-color: goldenrod;
+        }
+        .bttn3{
+            background-color: cadetblue
+        }
+        .text {
+            font-size: 20px;
+        }
+        .label{
+            font-size: 20px;
+        }
