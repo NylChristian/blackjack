@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>BlackJack</title>
+    
+    <style>
+        #banner{
+            display: flex;
+            background-color: black;        
+            height: 140px;
+            width: auto;
+            flex: 1;
+            padding: 10px;
+        }
+        .logo {
+            
+            float: left;
+            width: 88px;
+            height: 100px;
+            margin: 8px;  
+            
+        }
+        .logo > .front{
+            position: absolute;
+            -webkit-transform: perspective(600px) rotateY(0deg);
+            transform: perspective(600px) rotateY(0deg);
+            background: black; width: 88px; height: 100px; border-radius: 7px;
+           -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transition:-webkit-transform .8s linear 0s;
+            transition: transform .8s linear 0s;
+            font-size: 30px;
+            color: azure;
+            text-align: center;
+            padding-top: 10px;
+            
+            
+        }
+        .logo > .back{
+            position: absolute;
+            transform: perspective(600px) rotateY(180deg);
+            -webkit-transform: perspective(600px) rotateY(180deg);
+            background-image: url(back_card.png);
+            width: 88px; height: 120px; border-radius: 7px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition:-webkit-transform .8s linear 0s;
+            transition:transform .8s linear 0s;
+        }
+        .logo:hover > .front{
+            transform: perspective(600px) rotateY(-180deg);
+             -webkit-transform: perspective(600px) rotateY(-180deg);
+        }
+        
+        .logo:hover > .back{
+            transform: perspective(600px) rotateY(0deg);
+            -webkit-transform: perspective(600px) rotateY(0deg);
+        }
+        #container{
+            display: flex;
+            border: solid 5px white;
+            background-color: black;
+        }
+        #container > div {
+            flex: 1;
+        }
+        #centre{
+            border: solid 3px limegreen;
+            background-color: darkgreen;
+            float: left;
+            width: 20%;
+            height: auto;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        #left{
+            border: dashed 2px red;
+            background-color: transparent;
+            float: left;
+            width: 40px;
+            height: auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        #right{
+            border: dashed 2px red;
+            background-color: transparent;
+            float: left;
+            width: 40%;
+            height: auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        body{
+            background-color: forestgreen;
+        }
+        img{
+            padding: 10px;
+            
+        }
+.bttn {
+    background-color: darkred;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+        .bttn2{
+            background-color: goldenrod;
+        }
+        .bttn3{
+            background-color: cadetblue
+        }
+        .text {
+            font-size: 20px;
+        }
+        .label{
+            font-size: 20px;
+        }
+    </style>
+   <script src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+    
+    <script>
+        
+        var deckcards = "" ;
+        var valPic = [];
+        var dealerScore;
+        var userScore;
+        var newScore;
+        var randomMainData;
+        
+        $(document).ready(function(){
+                    //"DECK.txt" will be called in the server.
+         
+            $.get("deck.txt",function(data) {
+                                
+                deckcards = data;
+                
+            var maindata = deckcards.split("\n");
+                //call function shuffle to shuffle the array value
+           randomMainData = shuffle(maindata);
+
+            newGame();        
+                //hitCard();
+               //dealer();
+                //user();
+               compareScores();
+                
+                //alert(newScore);
+               // alert(userScore);
+               //alert(dealerScore);                
+                
+                //alert(data);
+
+                console.log(data);
+       
+         }); 
+            
+            //console
+/*
+          var fs = require("fs");
+            
+            var deckcards = fs.readFileSync("deck.txt");
+    
+    });*/  
+/*
+
+function displayImage(side, valPic)
+{
+var cr8img = document.createElement("img");
+    
+            if (side == user)
+            {
+                            cr8img.setAttribute("src",ValPic[1]);
+                            cr8img.setAttribute ("height","");
+                            cr8img.setAttribute ("height","");
+                            cr8img.setAttribute ("height","");            
+
+                                document.getElementById("left").appendChild(cr8img);  
+            }
+            else(side == dealer)
+            {
+                           cr8img.setAttribute("src",ValPic[1]);
+                            cr8img.setAttribute ("height","");
+                            cr8img.setAttribute ("height","");
+                            cr8img.setAttribute ("height","");            
+
+                                    document.getElementById("right").appendChild(cr8img);
+            }
+
+} //displayImage */ //display img
+       
+
+ function calculateScore()
+{  
+    compareScores();
+}//checkScore  // user //dealer
+            
+function user()    
+{            //CALCULATE USER'S CARD TO compare to dealer's hand
+             var userCard = document.getElementById("totalUserScore").value;
+                            document.getElementById("totalUserScore").value = Number(userCard);     
+  
+    
+        userScore = userCard;
+    
+
+             //return a total value for compararison
+ }//user function
+
+function dealer()
+             {
+                var dealerCard = document.getElementById("totalDealerScore").value;//get current value from onload
+                 
+           if(dealerCard < 17)
+                    {
+                         drawCard();             //check Draw function to review  for the dealers POV   
+                        document.getElementById("totalDealerScore").value;
+                        document.getElementById("totalDealerScore").value = Number(dealerCard) + valPic[0];//adding the new card from the previous value
+    
+                        document.getElementById("right").appendChild(valPic[1]);  //add the new img in the dealer's DIV
+                        
+                    }//end if
+                 
+                     ////error--dealerscore computation
+                 dealerCard = document.getElementById("totalDealerScore").value;
+                 
+                 dealerScore = dealerCard;
+               
+               //  return dealerScore;
+                // alert(dealerCard);
+                 //return dealerCard;
+                 
+
+                //return a number for comparison to user's hand
+            }//dealer function
+            
+function compareScores()
+                 {
+                     dealer();
+                     user();
+                     var u =Number(userScore);
+                     var d = Number(dealerScore);
+                     
+                    // alert(u);
+                    // alert(d);
+                                    if(u > 21 && d < 22)     //error
+                                    {
+                                    document.getElementById("result").innerHTML = "You Lose! Dealer wins the game"; //busted
+                                        
+                                    }
+                                    else if (u == d)
+                                    {
+                                    document.getElementById("result").innerHTML = "It is a Tie!"; //draw
+                                        
+                                    }
+                                    else if (u == 21)
+                                    {
+                                    document.getElementById("result").innerHTML ="Congratulation You are Black Jack!";
+                                        
+                                    }
+                                    else if (u < 22 && d > 22) //error
+                                    {
+                                       document.getElementById("result").innerHTML = "You Win!";     
+                                    }
+                                    else if(u > 22 && d > 22) //error
+                                    {
+                                        document.getElementById("result").innerHTML = "No one is the winner";
+                                    }
+
+ }//compare function
+            
+function hitCard()
+{
+    //call function draw a card
+    
+    drawCard()
+    document.getElementById("left").appendChild(valPic[1]);
+    
+    var userCard = document.getElementById("totalUserScore").value;       //get current value from onload
+    document.getElementById("totalUserScore").value= Number(userCard) + valPic[0]; //adding the new card from the previous value
+        
+    newScore = userCard;
+    
+}    //hitCard //calls drawCard() distributes the two data = valPic img and value in the user div
+            
+            
+function drawCard()
+{      
+                    var del = randomMainData.pop();
+                    
+                    var data2 = del.split("\t");
+                    
+                    var cardValue = Number(data2[0]);
+                    
+                    var pic = data2[1];
+            
+            //alert(cardValue + "xxxxxxxxxx" + pic);
+    
+            if(cardValue == 11 || cardValue == 12 || cardValue == 13)
+                {
+                    cardValue = 10;
+                }
+    else{
+        
+        cardValue=cardValue;
+    
+    }
+    var imgOnLoad = document.createElement("img");
+                    imgOnLoad.setAttribute("src",pic);
+                    imgOnLoad.setAttribute ("height","");
+                    imgOnLoad.setAttribute ("height","");
+                    imgOnLoad.setAttribute ("height","");
+    
+    // document.getElementById("left").appendChild(imgOnLoad);    //add the new img in the USER'S DIV
+    
+    var displayImg = imgOnLoad;
+    
+    valPic = [cardValue,displayImg];  
+
+        return valPic;   //return ValPic variable holding two data type array(card_value and img_src)
+  
+    } //drawCard    //return value + img (valPic)       error-pop function doesnt remove array    
+            
+
+function newGame()
+ {//onload screen
+
+     //////alternate distribution of cards img : user-dealer-user-dealer
+     /////adding values of the user and ai score
+    drawCard();
+    document.getElementById("left").appendChild(valPic[1]);//user
+    var urScore = document.getElementById("totalUserScore").value = valPic[0];                 //set value for user
+
+            drawCard();
+            document.getElementById("right").appendChild(valPic[1]);  //dealer
+          var dlScore = document.getElementById("totalDealerScore").value = valPic[0];      //setting value for dealer
+     drawCard();
+    document.getElementById("left").appendChild(valPic[1]);     //user
+    document.getElementById("totalUserScore").value = urScore + valPic[0];                 //adding the other value
+
+            drawCard();
+            document.getElementById("right").appendChild(valPic[1]);    //dealer
+            document.getElementById("totalDealerScore").value = dlScore + valPic[0];        //adding the other value
+    
+    //restart from onLoad Screen
+    
+}   //new game // -gives four distribution of cards to user and dealer (img and value)
+
+  
+
+function shuffle(array)
+{
+                //passing the index number to a different variable
+           var index = array.length;
+            var tempholder;
+            while(0 !== index){
+                
+            var randomIndex = Math.floor(Math.random() * index);
+                index -= 1;
+                
+            tempholder = array[index];
+            array[index] = array[randomIndex];
+            array[randomIndex] = tempholder;       
+            }//while
+               return array;
+            } //shuffle // -OK
+
+            
+/*
+//////////////////////////////////////////////////////////
+*   Ace 1 or 11
+*   computation -needs work logical error with results
+*   dealer draw card needs rework   
+*   onload screen should show 4 empty spaces and one button - "NEW GAME"
+*      
+*
+*   PHASE 1 DEAL BUTTON IS AVAILABLE - IT WILL GIVE 4 CARDS ONE FACEDOWN CARD FROM THE DEALER
+*   PHASE 2 HIT AND STAND BUTTON AVAILABLE 
+*   PHASE 3 WILL SHOW WHO WON THE GAME AND NEW GAME BUTTON WILL BE AVAILABLE AGAIN
+*   
+///////////////////////////////////////////
+*/   //memo
+            
+//drawCard();
+//dealer();
+//user();
+//compareScores();
+//hitCard();
+
+});//main 
+
+        
+    </script>
+    
+</head>
+
+   <header>
+<div id="banner">
+    
+    <div class="logo">
+        <div class="back"></div>
+    <div class="front"> B </div>
+        
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> L </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> A </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> C </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> K </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> &nbsp; </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> J </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> A </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> C </div>
+    
+    </div> <!--end logo-->
+    
+    <div class="logo"> 
+        <div class="back"> </div>
+    <div class="front"> K </div>
+        
+    
+    </div> <!--end logo-->
+    
+    
+    
+    </div><!--banner-->
+       
+    </header>
+      
+       
+<body>
+
+<div id="container">
+    <div id="left">
+        
+    </div> <!--leftbody-->
+    
+    <div id="centre">
+        
+       <center> 
+           
+        <button class="bttn" onclick="function()"  >    Deal</button> <br><br>
+        
+        <button class="bttn bttn2" onclick="hitCard()">   Hit </button><br><br>
+        
+        <button class="bttn bttn3" onclick="compareScores()" id="calculate">     Stand </button><br><br>
+        
+        <label class="label" > Your Score :  <input type="text" size ="2" id="totalUserScore" class="text" readonly > </label><br><br>
+        
+        <label class="label" > Dealer Score : <input type="text" size ="2" id="totalDealerScore" class="text" readonly > </label><br><br>
+        
+        </center>
+      
+        </div>
+        
+        <div id="right">
+            
+        </div> <!--right_body-->
+        
+        
+    
+</div><!--container-->
+    
+     <center><h2 id="result"> </h2></center>
+
+
+
+</body>
+
+    
+       </html>
